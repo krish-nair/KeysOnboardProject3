@@ -1,0 +1,180 @@
+﻿<h2>Sales List</h2>
+
+<link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.4/themes/dot-luv/jquery-ui.css" rel="stylesheet" />
+
+<p>
+    <a id="btnCreate" href="#myCreateModal" class="btn btn-success" data-toggle="modal" data-bind="click: $root.showAddUI">Create New</a>
+</p>
+<table class="table table-striped table-hover table-bordered">
+    <thead>
+        <tr>
+            <th style="display: none;">ID</th>
+            <th>Product Name</th>
+            <th>Customer Name</th>
+            <th>Store Name</th>
+            <th>Date Sold</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: ProductSolds">
+        <tr>
+            <td data-bind="text: Product.Name"></td>
+            <td data-bind="text: Customer.Name"></td>
+            <td data-bind="text: Store.Name"></td>
+            <td data-bind="text: DateSold"></td>
+            <td>
+                <a id="btnEdit" class="btn btn-info" data-toggle="modal" href="#myEditModal" data-bind="click: $root.showEditUI">Edit</a>
+                <a id="btnDelete" class="btn btn-danger" data-toggle="modal" href="#myDeleteModal" data-bind="click: $root.showDeleteUI">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div id="myCreateModal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Create New Product Sold Record</h4>
+            </div>
+            <div class="modal-body">
+                <div id="modal-content" data-bind="with: ProductSold">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.ValidationSummary(true, "")
+                        <div class="form-group">
+                            <label for="nameProduct" class="col-sm-4">Product Name</label>
+                            <select class="form-control" data-bind="options: $parent.ProductList,
+                                           optionsText:'Name',
+                                           value: $parent.SelectedProduct"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nameCustomer" class="col-sm-4">Customer Name</label>
+                            <select class="form-control" data-bind="options: $parent.CustomerList,
+                                           optionsText:'Name',
+                                           value: $parent.SelectedCustomer"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nameStore" class="col-sm-4">Store Name</label>
+                            <select class="form-control" data-bind="options: $parent.StoreList,
+                                           optionsText:'Name',
+                                           value: $parent.SelectedStore"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dateSold" class="col-sm-4">Date Sold</label>
+                            <input class="form-control" id="createDatepicker" data-bind="value: DateSold" type="text" title="DateSold" />
+                        </div>
+                    }
+                    
+
+                    <div class="modal-footer">
+                        <button class="btn btn-success col-sm-offset-2" data-bind="click: $root.create">Save</button>
+                        <button class="btn btn-info" data-dismiss="modal" data-bind="click: $root.reset">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myEditModal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Product Sold Record</h4>
+            </div>
+            <div class="modal-body">
+				<div id="modal-content" data-bind="with: ProductSold">
+					@using (Html.BeginForm())
+					{
+						@Html.ValidationSummary(true, "")
+						<div class="form-group">
+							<label for="nameProduct" class="col-sm-4">Product Name</label>
+							<select class="form-control" data-bind="options: $parent.ProductList,
+                                           optionsText:'Name',
+                                           value: $parent.SelectedProduct"></select>
+						</div>
+
+						<div class="form-group">
+							<label for="nameCustomer" class="col-sm-4">Customer Name</label>
+							<select class="form-control" data-bind="options:$parent.CustomerList,
+                                           optionsText:'Name',
+                                           value: $parent.SelectedCustomer"></select>
+						</div>
+
+						<div class="form-group">
+							<label for="nameStore" class="col-sm-4">Store Name</label>
+							<select class="form-control" data-bind="options: $parent.StoreList,
+                                           optionsText:'Name',
+                                           value: $parent.SelectedStore"></select>
+						</div>
+						<div class="form-group">
+							<label for="dateSold" class="col-sm-4">Date Sold</label>
+							<input class="form-control" id="editDatepicker" data-bind="value: DateSold" type="text" title="DateSold" />
+						</div>
+					}
+						<hr />
+						<div class="modal-footer">
+							<button class="btn btn-success col-sm-offset-2" data-bind="click: $root.update">Update</button>
+							<button class="btn btn-info" data-dismiss="modal">Cancel</button>
+						</div>
+					</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myDeleteModal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Product Sold Record</h4>
+            </div>
+            <div class="modal-body">
+                <div id="modal-content" data-bind="with: ProductSold">
+                    <div class="row">
+                        <label for="nameProduct" class="col-sm-4">Product Name</label>
+                        <lable data-bind="text: Product.Name"></lable>
+                    </div>
+
+                    <div class="row">
+                        <label for="nameCustomer" class="col-sm-4">Customer Name</label>
+                        <lable data-bind="text: Customer.Name"></lable>
+                    </div>
+
+                    <div class="row">
+                        <label for="nameStore" class="col-sm-4">Store Name</label>
+                        <lable data-bind="text: Store.Name"></lable>
+                    </div>
+                    <div class="row">
+                        <label for="dateSold" class="col-sm-4">Date Sold</label>
+                        <lable data-bind="text: DateSold"></lable>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success col-sm-offset-2" data-dismiss="modal" data-bind="click: $root.delete">Delete</button>
+                        <button class="btn btn-info" data-dismiss="modal" data-bind="click: $root.cancel">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    
+    <script src="~/Scripts/App/ProductSold.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#DateSold").datepicker();
+        });
+    </script>
+}
